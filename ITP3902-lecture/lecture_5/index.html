@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lec5 Graph Lab | ITP3902</title>
+  <meta name="description" content="ITP3902 Lec5 图论学习页面：图的定义、矩阵表示、Euler 图与 Hamilton 图。" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#overview" aria-label="回到 Lec5 总览">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span><strong>ITP3902</strong><small>DISCRETE MATHEMATICS</small></span>
+      </a>
+      <div class="topbar-meta">
+        <span class="lecture-tag">LECTURE 05</span>
+        <span class="progress-copy"><b id="progressValue">0%</b> 学习进度</span>
+        <span class="progress-track" aria-hidden="true"><span id="progressBar"></span></span>
+      </div>
+    </header>
+
+    <div class="workspace">
+      <aside class="side-nav" aria-label="学习章节导航">
+        <p class="nav-kicker">LEARNING ROUTE</p>
+        <nav>
+          <a class="nav-link is-active" href="#overview"><span>00</span>总览</a>
+          <a class="nav-link" href="#graph"><span>01</span>图的语言</a>
+          <a class="nav-link" href="#matrices"><span>02</span>矩阵翻译</a>
+          <a class="nav-link" href="#euler"><span>03</span>Euler / Hamilton</a>
+          <a class="nav-link" href="#contrast"><span>04</span>一眼分辨</a>
+          <a class="nav-link" href="#quiz"><span>05</span>快速自测</a>
+        </nav>
+        <div class="side-note">
+          <span class="note-dot"></span>
+          <p>先看关系，再记定义。每个模块都配有一个可以动手检查的图形。</p>
+        </div>
+        <div class="side-source">
+          <span>Source</span>
+          <a href="week5/ITP3902_DMS_Lec_5_Graph_1.pdf" target="_blank" rel="noreferrer">Lec 5 PDF ↗</a>
+        </div>
+      </aside>
+
+      <main class="content">
+        <section class="hero section-anchor" id="overview">
+          <div class="hero-copy">
+            <p class="eyebrow">GRAPH 01 / VISUAL STUDY NOTES</p>
+            <h1>Graph thinking,<br /><em>made visible.</em></h1>
+            <p class="hero-intro">把 Lec5 的定义、矩阵和判别定理放到同一张桌面上。先从一张图出发，再看它如何变成数字、路径和结论。</p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#graph">从图的语言开始 <span aria-hidden="true">↓</span></a>
+              <a class="button button-quiet" href="#matrices">直接看矩阵</a>
+            </div>
+          </div>
+          <div class="hero-visual" aria-label="图论概念关系图">
+            <div class="hero-orbit orbit-one"></div>
+            <div class="hero-orbit orbit-two"></div>
+            <div class="hero-node node-a">V</div>
+            <div class="hero-node node-b">E</div>
+            <div class="hero-node node-c">A</div>
+            <div class="hero-node node-d">I</div>
+            <div class="hero-line line-a"></div>
+            <div class="hero-line line-b"></div>
+            <div class="hero-line line-c"></div>
+            <div class="hero-annotation annotation-top">vertex ↔ edge</div>
+            <div class="hero-annotation annotation-bottom">picture ↔ matrix</div>
+            <div class="hero-stamp">L5<br /><span>GRAPH LAB</span></div>
+          </div>
+          <div class="signal-row" aria-label="本页学习范围">
+            <div><strong>24</strong><span>slides distilled</span></div>
+            <div><strong>2</strong><span>matrix lenses</span></div>
+            <div><strong>3</strong><span>decision tests</span></div>
+            <div><strong>1</strong><span>memory rule</span></div>
+          </div>
+        </section>
+
+        <section class="route-strip" aria-label="学习顺序">
+          <div class="route-label">THE ROUTE</div>
+          <div class="route-step"><b>01</b><span>看图</span></div>
+          <span class="route-arrow">→</span>
+          <div class="route-step"><b>02</b><span>写矩阵</span></div>
+          <span class="route-arrow">→</span>
+          <div class="route-step"><b>03</b><span>判回路</span></div>
+          <span class="route-arrow">→</span>
+          <div class="route-step"><b>04</b><span>说清区别</span></div>
+        </section>
+
+        <section class="learning-section section-anchor" id="graph">
+          <div class="section-heading">
+            <div><p class="eyebrow">01 / GRAPH LANGUAGE</p><h2>先把一张图读对</h2></div>
+            <p class="section-lead">顶点是对象，边是关系。所有后续的矩阵和定理，都在回答这两个问题：谁和谁相连？怎样走？</p>
+          </div>
+          <div class="graph-layout">
+            <div class="graph-board">
+              <div class="board-toolbar">
+                <span class="board-label">INTERACTIVE GRAPH</span>
+                <div class="tool-switch" role="group" aria-label="高亮图形元素">
+                  <button class="tool-button is-selected" data-highlight="none">全部</button>
+                  <button class="tool-button" data-highlight="vertices">顶点</button>
+                  <button class="tool-button" data-highlight="edges">边</button>
+                  <button class="tool-button" data-highlight="degree">度数</button>
+                </div>
+              </div>
+              <svg id="studyGraph" viewBox="0 0 560 330" role="img" aria-label="包含顶点 p q r s 和五条边的无向图">
+                <g class="graph-edges">
+                  <line data-edge="pq" x1="126" y1="86" x2="410" y2="86" />
+                  <line data-edge="ps" x1="126" y1="86" x2="126" y2="252" />
+                  <line data-edge="qr" x1="410" y1="86" x2="410" y2="252" />
+                  <line data-edge="sr" x1="126" y1="252" x2="410" y2="252" />
+                  <line data-edge="pr" x1="126" y1="86" x2="410" y2="252" />
+                </g>
+                <g class="graph-edge-labels" aria-hidden="true">
+                  <text x="264" y="70">e₁</text><text x="97" y="176">e₂</text><text x="428" y="176">e₃</text><text x="264" y="282">e₄</text><text x="298" y="156">e₅</text>
+                </g>
+                <g class="graph-degree-labels" aria-hidden="true">
+                  <text x="78" y="78">deg 3</text><text x="420" y="78">deg 2</text><text x="420" y="278">deg 2</text><text x="62" y="278">deg 3</text>
+                </g>
+                <g class="graph-vertices">
+                  <g class="graph-vertex" data-vertex="p"><circle cx="126" cy="86" r="18"></circle><text x="126" y="92">p</text></g>
+                  <g class="graph-vertex" data-vertex="q"><circle cx="410" cy="86" r="18"></circle><text x="410" y="92">q</text></g>
+                  <g class="graph-vertex" data-vertex="r"><circle cx="410" cy="252" r="18"></circle><text x="410" y="258">r</text></g>
+                  <g class="graph-vertex" data-vertex="s"><circle cx="126" cy="252" r="18"></circle><text x="126" y="258">s</text></g>
+                </g>
+              </svg>
+              <div class="graph-caption"><span>V(G) = {p, q, r, s}</span><span>E(G) = {e₁, e₂, e₃, e₄, e₅}</span></div>
+            </div>
+            <div class="concept-list">
+              <article class="concept-row"><span class="concept-index">01</span><div><h3>Vertex / 顶点</h3><p>图里的对象。写集合时放入 <code>V(G)</code>。</p></div></article>
+              <article class="concept-row"><span class="concept-index">02</span><div><h3>Edge / 边</h3><p>连接两个端点的关系。无向图用 <code>{u,v}</code>。</p></div></article>
+              <article class="concept-row"><span class="concept-index">03</span><div><h3>Degree / 度数</h3><p>接触该顶点的边数。Loop 要算两次。</p></div></article>
+              <article class="concept-row accent-row"><span class="concept-index">Σ</span><div><h3>快速校验</h3><p>无向图：<code>Σ deg(v) = 2|E|</code>。这里是 10 = 2 × 5。</p></div></article>
+            </div>
+          </div>
+        </section>
+
+        <section class="learning-section section-anchor" id="matrices">
+          <div class="section-heading">
+            <div><p class="eyebrow">02 / MATRIX TRANSLATION</p><h2>同一张图，两种矩阵视角</h2></div>
+            <p class="section-lead">邻接矩阵关心“点和点之间有几条边”；关联矩阵关心“这个点是否碰到这条边”。</p>
+          </div>
+          <div class="matrix-lab">
+            <div class="matrix-visual-column">
+              <div class="mini-graph-label"><span class="status-dot"></span> source graph / undirected</div>
+              <svg class="mini-graph" viewBox="0 0 330 250" role="img" aria-label="矩阵实验用四顶点图">
+                <g class="mini-edges"><line x1="64" y1="56" x2="266" y2="56" /><line x1="64" y1="56" x2="64" y2="194" /><line x1="266" y1="56" x2="266" y2="194" /><line x1="64" y1="194" x2="266" y2="194" /><line x1="64" y1="56" x2="266" y2="194" /></g>
+                <g class="mini-labels"><text x="152" y="43">e₁</text><text x="42" y="130">e₂</text><text x="279" y="130">e₃</text><text x="152" y="218">e₄</text><text x="173" y="119">e₅</text></g>
+                <g class="mini-nodes"><circle cx="64" cy="56" r="15"/><circle cx="266" cy="56" r="15"/><circle cx="266" cy="194" r="15"/><circle cx="64" cy="194" r="15"/><text x="64" y="61">p</text><text x="266" y="61">q</text><text x="266" y="199">r</text><text x="64" y="199">s</text></g>
+              </svg>
+              <div class="matrix-order"><span>vertex order</span><b>p → q → r → s</b></div>
+              <div class="matrix-tip"><span class="tip-icon">i</span><span>行列顺序是矩阵的坐标系。换顺序，数字位置也会一起换。</span></div>
+            </div>
+            <div class="matrix-result">
+              <div class="matrix-tabs" role="tablist" aria-label="矩阵类型">
+                <button class="matrix-tab is-active" id="tab-adjacency" role="tab" aria-selected="true" data-matrix="adjacency">Adjacency <small>A(G)</small></button>
+                <button class="matrix-tab" id="tab-incidence" role="tab" aria-selected="false" data-matrix="incidence">Incidence <small>I(G)</small></button>
+              </div>
+              <div class="matrix-heading"><h3 id="matrixTitle">Adjacency matrix</h3><p id="matrixExplain">行列都是顶点，单元格表示两个顶点之间的边数。</p></div>
+              <div id="matrixTable" class="matrix-table-wrap" aria-live="polite"></div>
+              <div class="matrix-foot"><span id="matrixRule">Aᵢⱼ = edge count between vᵢ and vⱼ</span><button id="matrixReset" class="text-button">重置高亮</button></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="learning-section section-anchor" id="euler">
+          <div class="section-heading">
+            <div><p class="eyebrow">03 / CYCLE TESTS</p><h2>两种回路，两个问题</h2></div>
+            <p class="section-lead">Euler 看边，Hamilton 看点。下面的两个小工具把 PPT 的判定条件变成可以即时检查的状态。</p>
+          </div>
+          <div class="test-grid">
+            <article class="test-panel euler-panel">
+              <div class="test-head"><span class="test-number">A</span><div><p class="test-type">EULERIAN</p><h3>每条边都走到吗？</h3></div><span id="eulerBadge" class="result-badge is-good">YES</span></div>
+              <p class="test-definition">Eulerian cycle：经过每条 edge 恰好一次，并回到起点。</p>
+              <div class="check-stack">
+                <label class="check-row"><input type="checkbox" id="eulerConnected" checked /><span class="fake-check"></span><span>图是 connected</span></label>
+                <label class="check-row"><input type="checkbox" id="eulerEven" checked /><span class="fake-check"></span><span>每个 vertex 的 degree 都是偶数</span></label>
+              </div>
+              <div class="test-result" id="eulerMessage">满足两个条件：这是 Eulerian graph。</div>
+              <div class="formula-line">connected + all degrees even <b>⇔</b> Eulerian</div>
+            </article>
+            <article class="test-panel hamilton-panel">
+              <div class="test-head"><span class="test-number">B</span><div><p class="test-type">HAMILTONIAN</p><h3>每个点都访问吗？</h3></div><span id="hamiltonBadge" class="result-badge is-warn">CHECK</span></div>
+              <p class="test-definition">Hamiltonian cycle：经过每个 vertex 恰好一次，并回到起点。</p>
+              <div class="ham-inputs">
+                <label><span>n vertices</span><input type="number" id="hamN" min="3" value="6" /></label>
+                <label><span>minimum degree</span><input type="number" id="hamMinDegree" min="0" value="3" /></label>
+                <label><span>non-adjacent pair sum</span><input type="number" id="hamPairSum" min="0" value="5" /></label>
+              </div>
+              <div class="test-result" id="hamiltonMessage">Dirac：3 ≥ 6/2，满足充分条件。</div>
+              <div class="formula-line"><span>Dirac: δ ≥ n/2</span><span>Ore: d(v)+d(w) ≥ n</span></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="learning-section section-anchor" id="contrast">
+          <div class="section-heading compact-heading">
+            <div><p class="eyebrow">04 / MEMORY CARD</p><h2>一眼分辨 Euler 与 Hamilton</h2></div>
+            <p class="section-lead">考试看到“每条边”或“每个顶点”时，先把关键词圈出来。</p>
+          </div>
+          <div class="contrast-table" role="table" aria-label="Euler 与 Hamilton 对比">
+            <div class="contrast-row contrast-header" role="row"><span role="columnheader">PROPERTY</span><span role="columnheader">EULERIAN</span><span role="columnheader">HAMILTONIAN</span></div>
+            <div class="contrast-row" role="row"><span role="rowheader">关注什么？</span><strong>edges</strong><strong>vertices</strong></div>
+            <div class="contrast-row" role="row"><span role="rowheader">重复顶点？</span><span class="yes-mark">YES</span><span class="no-mark">NO</span></div>
+            <div class="contrast-row" role="row"><span role="rowheader">重复边？</span><span class="no-mark">NO</span><span class="no-mark">NO</span></div>
+            <div class="contrast-row" role="row"><span role="rowheader">允许遗漏边？</span><span class="no-mark">NO</span><span class="yes-mark">YES</span></div>
+            <div class="contrast-row" role="row"><span role="rowheader">快速抓手</span><span>all degrees even</span><span>Dirac / Ore</span></div>
+          </div>
+          <div class="memory-line"><span class="memory-quote">“先看对象，再看限制。”</span><span>对象 = edge / vertex · 限制 = once / closed</span></div>
+        </section>
+
+        <section class="learning-section section-anchor quiz-section" id="quiz">
+          <div class="section-heading compact-heading">
+            <div><p class="eyebrow">05 / QUICK RECALL</p><h2>三道题，把知识点钉住</h2></div>
+            <p class="section-lead">先在脑中回答，再点击“显示答案”。</p>
+          </div>
+          <div class="quiz-grid">
+            <article class="quiz-card"><span class="quiz-index">01</span><h3>无向图里，为什么总度数一定是偶数？</h3><button class="reveal-button" data-answer="每条边连接两个端点，所以每条边对总度数贡献 2：Σdeg(v)=2|E|。">显示答案 <span>＋</span></button><p class="quiz-answer"></p></article>
+            <article class="quiz-card"><span class="quiz-index">02</span><h3>Euler 和 Hamilton，分别在数什么？</h3><button class="reveal-button" data-answer="Euler 数边，Hamilton 数点。Euler 可重复顶点，Hamilton 不能重复顶点。">显示答案 <span>＋</span></button><p class="quiz-answer"></p></article>
+            <article class="quiz-card"><span class="quiz-index">03</span><h3>Dirac 定理只给什么性质？</h3><button class="reveal-button" data-answer="它是 Hamiltonian 的充分条件，不是必要条件。条件不满足时，不能直接断言不是 Hamiltonian。">显示答案 <span>＋</span></button><p class="quiz-answer"></p></article>
+          </div>
+        </section>
+
+        <footer class="page-footer"><span>ITP3902 · Lec 5 Graph Lab</span><span>Built from the supplied PPT · 复习版</span></footer>
+      </main>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
