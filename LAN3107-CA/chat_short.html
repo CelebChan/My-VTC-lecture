@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bright Future Chat - Short Version</title>
+  <style>
+    :root {
+      --ink: #17212b;
+      --muted: #6f7c89;
+      --line: #dce4e9;
+      --blue-soft: #eaf1ff;
+      --coral-soft: #fff0ec;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { width: 100%; min-height: 100%; margin: 0; }
+
+    body {
+      padding: 0 16px;
+      color: var(--ink);
+      background: #fbfcfd;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 16px;
+      line-height: 1.45;
+    }
+
+    .window {
+      width: min(100%, 1024px);
+      max-width: 1024px;
+      min-height: 100vh;
+      margin: 0 auto;
+      overflow: hidden;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: 0 18px 44px rgba(26, 45, 61, .11);
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      min-height: 82px;
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .avatar-stack { display: flex; min-width: 68px; }
+
+    .avatar {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      flex: 0 0 38px;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .avatar.alex { color: #164a4b; background: #b8e6dc; }
+    .avatar.ashley { color: #75422f; background: #ffd0c2; }
+    .avatar-stack .avatar + .avatar { margin-left: -11px; }
+
+    .header-copy { min-width: 0; flex: 1; margin-left: 14px; }
+    .header h1 { margin: 0; font-size: 18px; font-weight: 650; line-height: 1.25; }
+    .header p { margin: 4px 0 0; color: var(--muted); font-size: 13px; overflow-wrap: anywhere; }
+
+    .chat {
+      width: 100%;
+      min-width: 0;
+      min-height: calc(100vh - 82px);
+      padding: 22px 24px 32px;
+      background: #fbfcfd;
+    }
+
+    .date {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 20px;
+      color: #73818d;
+      font-size: 13px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .date::before, .date::after {
+      content: "";
+      height: 1px;
+      flex: 1;
+      background: var(--line);
+    }
+
+    .thread { display: grid; min-width: 0; gap: 13px; }
+    .row { display: grid; grid-template-columns: 28px minmax(0, 1fr); align-items: end; width: 100%; min-width: 0; gap: 9px; }
+    .row.alex { grid-template-columns: minmax(0, 1fr) 28px; }
+
+    .row .avatar {
+      width: 28px;
+      height: 28px;
+      flex-basis: 28px;
+      font-size: 11px;
+    }
+
+    .message { min-width: 0; max-width: min(100%, 680px); }
+    .sender { margin: 0 0 4px; color: var(--muted); font-size: 12px; font-weight: 700; text-transform: uppercase; }
+    .row.alex .sender { text-align: right; }
+
+    .bubble {
+      padding: 11px 14px;
+      border: 1px solid transparent;
+      border-radius: 15px;
+      font-size: 16px;
+      line-height: 1.55;
+      overflow-wrap: anywhere;
+      box-shadow: 0 2px 5px rgba(24, 43, 56, .05);
+    }
+
+    .row.alex .bubble {
+      color: #143c55;
+      background: var(--blue-soft);
+      border-color: #d4e2ff;
+      border-bottom-right-radius: 5px;
+    }
+
+    .row.ashley .bubble {
+      color: #54382f;
+      background: var(--coral-soft);
+      border-color: #ffdcd2;
+      border-bottom-left-radius: 5px;
+    }
+
+    @media (max-width: 760px) {
+      body { padding: 0; }
+      .window { border: 0; border-radius: 0; box-shadow: none; }
+      .header { padding: 15px 16px; }
+      .chat { padding: 18px 14px 28px; }
+    }
+
+    @media (max-width: 420px) {
+      .header h1 { font-size: 16px; }
+      .header p { font-size: 12px; }
+      .bubble { padding: 10px 12px; font-size: 15px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="window" aria-label="Bright Future Education Centre conversation">
+    <header class="header">
+      <div class="avatar-stack" aria-hidden="true">
+        <span class="avatar alex">AL</span>
+        <span class="avatar ashley">AL</span>
+      </div>
+      <div class="header-copy">
+        <h1>Alex Liu &amp; Ashley Lam</h1>
+        <p>Public Relations Officer · Facilities Officer · Bright Future Education Centre</p>
+      </div>
+    </header>
+    <section class="chat" aria-label="Conversation">
+      <div class="date">Friday · staff appreciation dinner</div>
+      <div class="thread">
+        <div class="row alex"><div class="message"><p class="sender">Alex</p><div class="bubble">Hi Ashley, I'm Alex Liu from Public Relations. Nice to finally meet you at the dinner!</div></div><span class="avatar alex" aria-hidden="true">AL</span></div>
+        <div class="row ashley"><span class="avatar ashley" aria-hidden="true">AL</span><div class="message"><p class="sender">Ashley</p><div class="bubble">Nice to meet you too. I'm Ashley Lam from Facilities. It's good to relax with everyone tonight.</div></div></div>
+        <div class="row alex"><div class="message"><p class="sender">Alex</p><div class="bubble">How was your weekend? I went hiking at Dragon's Back with friends on Saturday, then tried an artisan cafe in Tsim Sha Tsui on Sunday.</div></div><span class="avatar alex" aria-hidden="true">AL</span></div>
+        <div class="row ashley"><span class="avatar ashley" aria-hidden="true">AL</span><div class="message"><div class="bubble">That sounds relaxing. I took my family to the beach on Saturday, went outdoor cycling on Sunday morning, and rested at home in the afternoon.</div></div></div>
+        <div class="row alex"><div class="message"><div class="bubble">A good break before a busy week! What is Facilities working on at the moment?</div></div><span class="avatar alex" aria-hidden="true">AL</span></div>
+        <div class="row ashley"><span class="avatar ashley" aria-hidden="true">AL</span><div class="message"><div class="bubble">We're renovating the older classrooms in both Blocks A and B. In Block A, we've replaced the traditional whiteboards with interactive smartboards and installed energy-efficient LED lighting across all three floors.</div></div></div>
+        <div class="row alex"><div class="message"><div class="bubble">That must make the classrooms brighter and more useful. What is planned next?</div></div><span class="avatar alex" aria-hidden="true">AL</span></div>
+        <div class="row ashley"><span class="avatar ashley" aria-hidden="true">AL</span><div class="message"><div class="bubble">Block B is next. Before the new term, we plan to repaint the walls, replace worn flooring, and upgrade the desks and chairs with ergonomic furniture.</div></div></div>
+        <div class="row alex"><div class="message"><p class="sender">Alex</p><div class="bubble">My team is also busy. Our annual Open Day is about two months away, so we're coordinating the event now.</div></div><span class="avatar alex" aria-hidden="true">AL</span></div>
+        <div class="row ashley"><span class="avatar ashley" aria-hidden="true">AL</span><div class="message"><div class="bubble">How is the preparation going so far?</div></div></div>
+        <div class="row alex"><div class="message"><div class="bubble">We've booked the main exhibition hall, finalized the VIP guest list, sent invitations to more than 30 local primary and secondary schools, and drafted the day's activity schedule.</div></div><span class="avatar alex" aria-hidden="true">AL</span></div>
+        <div class="row ashley"><span class="avatar ashley" aria-hidden="true">AL</span><div class="message"><div class="bubble">You've already covered a lot. What still needs attention before the event?</div></div></div>
+        <div class="row alex"><div class="message"><div class="bubble">We'll launch social media promotions and design and print brochures and banners. We'll also need your team to help set up the exhibition booths and test the audio-visual equipment.</div></div><span class="avatar alex" aria-hidden="true">AL</span></div>
+        <div class="row ashley"><span class="avatar ashley" aria-hidden="true">AL</span><div class="message"><div class="bubble">Of course. Send me the floor plan when it's ready, and Facilities can arrange the setup and technical support.</div></div></div>
+        <div class="row alex"><div class="message"><p class="sender">Alex</p><div class="bubble">Thanks! By the way, what do you think about the new workplace uniform policy?</div></div><span class="avatar alex" aria-hidden="true">AL</span></div>
+        <div class="row ashley"><span class="avatar ashley" aria-hidden="true">AL</span><div class="message"><div class="bubble">It requires staff to wear the company polo with formal trousers or skirts, and it bans jeans and sneakers. I understand the standard, but Facilities staff walk around campus, climb ladders, and move heavy equipment every day.</div></div></div>
+        <div class="row alex"><div class="message"><div class="bubble">I can see why that is difficult. From the PR side, matching uniforms create a professional, consistent image for parents, students, and visitors. They also make staff easier to identify and save time choosing clothes each morning.</div></div><span class="avatar alex" aria-hidden="true">AL</span></div>
+        <div class="row ashley"><span class="avatar ashley" aria-hidden="true">AL</span><div class="message"><div class="bubble">That works well for reception and office roles. For operational work, formal trousers can restrict movement, while rigid or slippery leather shoes are uncomfortable and risky on ladders or when carrying equipment.</div></div></div>
+        <div class="row alex"><div class="message"><div class="bubble">Safety and practicality should come first during physical tasks. Could we propose a role-based option: keep the company branding, but let technical and operations teams wear breathable polos, practical trousers, and dark sneakers, while administrative staff keep formal attire?</div></div><span class="avatar alex" aria-hidden="true">AL</span></div>
+        <div class="row ashley"><span class="avatar ashley" aria-hidden="true">AL</span><div class="message"><div class="bubble">I support that. A flexible policy can keep a professional image without treating every role the same. I'll add the safety and movement requirements for our team.</div></div></div>
+        <div class="row alex"><div class="message"><div class="bubble">Great. I'll draft a joint proposal for HR and send it to you to review before the next staff meeting.</div></div><span class="avatar alex" aria-hidden="true">AL</span></div>
+        <div class="row ashley"><span class="avatar ashley" aria-hidden="true">AL</span><div class="message"><div class="bubble">Perfect. I'll add the technical details. Good luck with the Open Day, and enjoy the rest of your evening!</div></div></div>
+        <div class="row alex"><div class="message"><div class="bubble">It was great catching up, Ashley. Let's grab some food before the queue gets too long!</div></div><span class="avatar alex" aria-hidden="true">AL</span></div>
+        <div class="row ashley"><span class="avatar ashley" aria-hidden="true">AL</span><div class="message"><div class="bubble">Sounds good! The roast beef looks great. Lead the way!</div></div></div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
